@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>UBS to YNAB Converter</title>
+    <link rel="stylesheet" href="{{ static_asset_url('styles.css') }}">
+    <script src="{{ static_asset_url('app.js') }}" defer></script>
+  </head>
+  <body>
+    <main class="shell">
+      <section class="hero">
+        <p class="eyebrow">CSV Converter</p>
+        <h1>Turn UBS and Neon exports into YNAB imports.</h1>
+        <p class="lede">
+          Upload one CSV for a direct download, or upload several and get a ZIP with all converted files.
+        </p>
+        <p class="disclaimer">Never upload your bank documents to a site you don't trust. This tool processes your files server-side and never stores or retains them — but only use it if you trust where it's hosted.</p>
+      </section>
+
+      <section class="panel">
+        <form action="{{ url_for('convert') }}" method="post" enctype="multipart/form-data" class="upload-form">
+          <div class="dropzone" data-dropzone>
+            <span class="dropzone-title">Choose or drop CSV files</span>
+            <span class="dropzone-copy">Supports single or multiple uploads, and you can add more than one batch.</span>
+            <button type="button" class="ghost-button dropzone-button" data-choose-files>Choose files</button>
+            <input id="files" name="files" type="file" accept=".csv,text/csv" multiple required>
+          </div>
+
+          <section class="selection" aria-live="polite">
+            <div class="selection-header">
+              <strong>Selected files</strong>
+              <button type="button" class="ghost-button" data-clear-files>Clear</button>
+            </div>
+            <p class="selection-empty" data-empty-state>No files selected yet.</p>
+            <ul class="file-list" data-file-list></ul>
+          </section>
+
+          <button type="submit">Convert Files</button>
+        </form>
+
+        {% if error %}
+          <div class="message error">{{ error }}</div>
+        {% endif %}
+
+        {% if errors %}
+          <div class="message warning">
+            <p>Some files could not be converted:</p>
+            <ul>
+              {% for item in errors %}
+                <li>{{ item }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+      </section>
+    </main>
+    <footer>
+      <a href="https://github.com/m14dch/ubs2ynab" target="_blank" rel="noopener">View source on GitHub</a>
+    </footer>
+  </body>
+</html>

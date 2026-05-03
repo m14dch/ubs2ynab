@@ -1,0 +1,6 @@
+.git
+*.csv
+.env
+__pycache__
+.venv
+CLAUDE.md
