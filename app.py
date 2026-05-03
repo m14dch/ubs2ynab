@@ -6,7 +6,7 @@ import tempfile
 import zipfile
 from pathlib import Path
 
-from flask import Flask, redirect, render_template, request, send_file, url_for
+from flask import Flask, redirect, render_template, request, send_file, send_from_directory, url_for
 from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 
@@ -67,6 +67,25 @@ def convert_upload(upload: FileStorage) -> tuple[str, bytes]:
 @app.get("/")
 def index():
     return render_template("index.html")
+
+
+@app.get("/favicon.ico")
+def favicon():
+    return send_from_directory(
+        app.static_folder or "static",
+        "favicon.ico",
+        mimetype="image/vnd.microsoft.icon",
+    )
+
+
+@app.get("/apple-touch-icon.png")
+@app.get("/apple-touch-icon-precomposed.png")
+def apple_touch_icon():
+    return send_from_directory(
+        app.static_folder or "static",
+        "apple-touch-icon.png",
+        mimetype="image/png",
+    )
 
 
 @app.get("/convert")

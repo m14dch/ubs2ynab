@@ -1,5 +1,5 @@
 app = "ubs2ynab"
-primary_region = "ams"
+primary_region = "fra"
 
 [build]
 

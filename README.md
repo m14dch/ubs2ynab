@@ -1,13 +1,11 @@
 # UBS to YNAB Web App
 
-This subfolder contains a small Flask web application with its own converter module for the shared CSV-to-YNAB business logic.
+Small Flask web application for converting UBS and Neon CSV exports into YNAB-compatible CSV imports.
 
 ## Run locally
 
-From the repository root:
-
 ```bash
-uv run --project webapp flask --app webapp/app run --debug
+uv run flask --app app run --debug
 ```
 
 Then open the local address shown in the terminal, upload one or more CSV files, and download the converted YNAB file or ZIP archive.
@@ -17,7 +15,7 @@ Then open the local address shown in the terminal, upload one or more CSV files,
 Build the image from the repository root:
 
 ```bash
-docker build -t ubs-to-ynab-web ./webapp
+docker build -t ubs-to-ynab-web .
 ```
 
 Run the container:
@@ -28,30 +26,13 @@ docker run --rm -p 8000:8000 ubs-to-ynab-web
 
 Then open `http://localhost:8000`.
 
-## Run with Docker Compose
-
-From the repository root:
-
-```bash
-docker compose up --build
-```
-
-Then open `http://localhost:8000`.
-
-Stop it with:
-
-```bash
-docker compose down
-```
-
-This compose file also includes Traefik labels and expects an external Docker network named `frontend` by default. You can override the hostname, network, and cert resolver with environment variables such as `TRAEFIK_HOST`, `TRAEFIK_NETWORK`, and `TRAEFIK_CERTRESOLVER`.
-
 ## Move to another machine
 
 The easiest option is to copy the project folder and build it there:
 
 ```bash
-docker compose up --build
+docker build -t ubs-to-ynab-web .
+docker run --rm -p 8000:8000 ubs-to-ynab-web
 ```
 
 If you want to transfer a prebuilt image instead of the source code:
